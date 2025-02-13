@@ -1,66 +1,229 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# REST API Products Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
 
-## About Laravel
+This REST API provides access to various resources required for the application. It follows RESTful principles and communicates using JSON over HTTP.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Base URL
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```
+http://127.0.0.1:8000/api/
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Endpoints
 
-## Learning Laravel
+### 1. User Authentication
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Login
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**Endpoint:**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+POST /auth/login
+```
 
-## Laravel Sponsors
+**Request Body:**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```json
+{
+    "email": "user@example.com",
+    "password": "yourpassword"
+}
+```
 
-### Premium Partners
+**Response:**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```json
+{
+    "token": "your_jwt_token",
+    "user": {
+        "id": 1,
+        "name": "John Doe",
+        "email": "user@example.com"
+    }
+}
+```
 
-## Contributing
+#### Register
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Endpoint:**
 
-## Code of Conduct
+```
+POST /auth/register
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Request Body:**
 
-## Security Vulnerabilities
+```json
+{
+    "name": "John Doe",
+    "email": "user@example.com",
+    "password": "yourpassword"
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+### 2. User Management
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### Get User Profile
+
+**Endpoint:**
+
+```
+GET /users/me
+```
+
+**Headers:**
+
+```
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+**Response:**
+
+```json
+{
+    "id": 1,
+    "name": "John Doe",
+    "email": "user@example.com"
+}
+```
+
+---
+
+### 3. Products Management
+
+#### Get All Items
+
+**Endpoint:**
+
+```
+GET /products
+```
+
+**Response:**
+
+```json
+{
+  "status": 200,
+  "message": "List Data Products",
+  "data": {
+    "current_page": 1,
+    "data": [
+      {
+        "id": 1,
+        "name": "samsung",
+        "description": "product electronic",
+        "price": 2450000,
+        "stock": 35,
+        "created_at": "2025-02-13T02:42:54.000000Z",
+        "updated_at": "2025-02-13T02:42:54.000000Z"
+      }
+    ],
+    "first_page_url": "http://127.0.0.1:8000/api/products?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://127.0.0.1:8000/api/products?page=1",
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/products?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "next_page_url": null,
+    "path": "http://127.0.0.1:8000/api/products",
+    "per_page": 10,
+    "prev_page_url": null,
+    "to": 1,
+    "total": 1
+  }
+}
+```
+
+#### Create Item
+
+**Endpoint:**
+
+```
+POST /products
+```
+
+**Request Body:**
+
+```json
+{
+   "name": "samsung",
+   "description": "product electronic",
+   "price": "2450000",
+   "stock": "35"
+}
+```
+
+#### Update Item
+
+**Endpoint:**
+
+```
+PUT /items/{id}
+```
+
+**Request Body:**
+
+```json
+{
+    "name": "Updated Item",
+    "price": 250.0
+}
+```
+
+#### Delete Item
+
+**Endpoint:**
+
+```
+DELETE /items/{id}
+```
+
+---
+
+## Error Handling
+
+The API returns standard HTTP status codes. Here are common ones:
+
+- `200 OK` – Success
+- `201 Created` – Resource created
+- `400 Bad Request` – Invalid input
+- `401 Unauthorized` – Authentication failed
+- `403 Forbidden` – Insufficient permissions
+- `404 Not Found` – Resource not found
+- `500 Internal Server Error` – Server error
+
+---
+
+## Usage Example (cURL)
+
+```sh
+curl -X GET "https://api.example.com/v1/users/me" \
+     -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+---
+
+## Notes
+
+- Ensure to replace `YOUR_ACCESS_TOKEN` with a valid token.
+- All requests and responses are in JSON format.
+- API versioning is handled via the base URL (`/v1`).
+
