@@ -12,89 +12,9 @@ http://127.0.0.1:8000/api/
 
 ## Endpoints
 
-### 1. User Authentication
+### 1. Products Management
 
-#### Login
-
-**Endpoint:**
-
-```
-POST /auth/login
-```
-
-**Request Body:**
-
-```json
-{
-    "email": "user@example.com",
-    "password": "yourpassword"
-}
-```
-
-**Response:**
-
-```json
-{
-    "token": "your_jwt_token",
-    "user": {
-        "id": 1,
-        "name": "John Doe",
-        "email": "user@example.com"
-    }
-}
-```
-
-#### Register
-
-**Endpoint:**
-
-```
-POST /auth/register
-```
-
-**Request Body:**
-
-```json
-{
-    "name": "John Doe",
-    "email": "user@example.com",
-    "password": "yourpassword"
-}
-```
-
----
-
-### 2. User Management
-
-#### Get User Profile
-
-**Endpoint:**
-
-```
-GET /users/me
-```
-
-**Headers:**
-
-```
-Authorization: Bearer YOUR_ACCESS_TOKEN
-```
-
-**Response:**
-
-```json
-{
-    "id": 1,
-    "name": "John Doe",
-    "email": "user@example.com"
-}
-```
-
----
-
-### 3. Products Management
-
-#### Get All Items
+#### Get All Products
 
 **Endpoint:**
 
@@ -111,6 +31,15 @@ GET /products
   "data": {
     "current_page": 1,
     "data": [
+      {
+        "id": 2,
+        "name": "xiaomi",
+        "description": "product electronic",
+        "price": 1845000,
+        "stock": 45,
+        "created_at": "2025-02-13T03:13:18.000000Z",
+        "updated_at": "2025-02-13T03:13:18.000000Z"
+      },
       {
         "id": 1,
         "name": "samsung",
@@ -146,13 +75,13 @@ GET /products
     "path": "http://127.0.0.1:8000/api/products",
     "per_page": 10,
     "prev_page_url": null,
-    "to": 1,
-    "total": 1
+    "to": 2,
+    "total": 2
   }
 }
 ```
 
-#### Create Item
+#### Create Product
 
 **Endpoint:**
 
@@ -171,20 +100,48 @@ POST /products
 }
 ```
 
+#### Show Product
+
+**Endpoint:**
+
+```
+GET /products/{id}
+```
+**Response:**
+
+```json
+{
+  "status": 200,
+  "message": "Product Details",
+  "data": {
+    "id": 1,
+    "name": "samsung",
+    "description": "product electronic",
+    "price": 2450000,
+    "stock": 35,
+    "created_at": "2025-02-13T02:42:54.000000Z",
+    "updated_at": "2025-02-13T02:42:54.000000Z"
+  }
+}
+```
+
 #### Update Item
 
 **Endpoint:**
 
 ```
-PUT /items/{id}
+PUT /products/{id}
 ```
 
 **Request Body:**
 
 ```json
 {
-    "name": "Updated Item",
-    "price": 250.0
+  "_method":"PUT",
+  "name": "samsung update",
+  "description": "product electronic update",
+  "price": "1875000",
+  "stock": "48"
 }
 ```
 
@@ -193,7 +150,7 @@ PUT /items/{id}
 **Endpoint:**
 
 ```
-DELETE /items/{id}
+DELETE /products/{id}
 ```
 
 ---
@@ -206,24 +163,14 @@ The API returns standard HTTP status codes. Here are common ones:
 - `201 Created` – Resource created
 - `400 Bad Request` – Invalid input
 - `401 Unauthorized` – Authentication failed
-- `403 Forbidden` – Insufficient permissions
+- `403 Forbidden` - Insufficient permissions
+- `422 Unprocessable Content` - Understood the content type
 - `404 Not Found` – Resource not found
 - `500 Internal Server Error` – Server error
 
 ---
 
-## Usage Example (cURL)
-
-```sh
-curl -X GET "https://api.example.com/v1/users/me" \
-     -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
-```
-
----
-
 ## Notes
 
-- Ensure to replace `YOUR_ACCESS_TOKEN` with a valid token.
 - All requests and responses are in JSON format.
-- API versioning is handled via the base URL (`/v1`).
 
